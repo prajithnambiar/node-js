@@ -1,0 +1,29 @@
+extends ../layouts/main-layout.pug
+
+block style
+   link(rel="stylesheet", href="/css/product.css")
+
+block content
+   main
+     if prod.length>0
+        .grid
+          each product in prod 
+            article.card.product-item
+              header.card__header
+                  h1.product__title #{product.title}
+              .card__image
+                  img(src= product.imageurl, alt="A book")
+              .card__content
+                  h2.product__price #{product.price}
+                  p.product__description #{product.description}
+              .card__actions
+                a.btn(href="/admin/edit-product/"+product.id + "?edit=true") Edit Product
+                form(action="/admin/deleteproduct", method="post")
+                  input(type="hidden" name="productId" value=product.id) 
+                  button.btn(type="submit") Delete Book
+              .card__actions
+                  form(action="/cart", method="post")
+                    button.btn(type="submit") Add to cart
+                    input(type="hidden" name="productId", value=product.id) 
+     else 
+        h1 No Products found
